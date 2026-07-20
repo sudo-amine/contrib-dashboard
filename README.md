@@ -156,9 +156,24 @@ deploy_kcp(..., hostnames=[..., 'dex.kcp.localhost'], oidc=oidc)
 
 - `Dockerfile` is a multi-stage build (SPA + BFF → slim runtime that serves
   `web/dist` and proxies REST). Build locally: `docker build -t kcp-dashboard .`.
-- `.github/workflows/dashboard-image.yaml` builds the image on every PR (which also
-  verifies the TypeScript build) and pushes to
-  `ghcr.io/<owner>/contrib-dashboard` on `main` and version tags.
+- `.github/workflows/ci.yaml` runs the unit tests and production builds on every
+  push and pull request.
+- `.github/workflows/demo.yaml` creates a static GitHub Pages artifact on every
+  push. The default branch alone deploys the public demo, preventing feature
+  branches from replacing the production site.
+- `.github/workflows/dashboard-image.yaml` builds the image on every PR and
+  pushes multi-architecture images to `ghcr.io/<owner>/contrib-dashboard` from
+  `main` and version tags.
+
+## Testing
+
+```bash
+npm test            # run unit tests once
+npm run check       # test, type-check, and build the SPA and BFF
+```
+
+Tests cover polling and cancellation, kcp API condition interpretation, REST
+client error handling, and discovery filtering/classification.
 
 ## Configuration (BFF env)
 
