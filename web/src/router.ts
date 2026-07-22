@@ -11,5 +11,6 @@ export const router = createRouter({
     { path: "/explore", name: "explore", component: ExploreView },
     { path: "/apiexports", name: "apiexports", component: APIExportsView },
     { path: "/apibindings", name: "apibindings", component: APIBindingsView },
+    { path: "/:pathMatch(.*)*", redirect: "/explore" },
   ],
 });

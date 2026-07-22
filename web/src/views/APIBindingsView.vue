@@ -215,8 +215,8 @@ async function create() {
     );
     const createdName = bName.value;
     showModal.value = false; resetModal();
-    // Poll until the new binding appears in the list
-    void pollUntil(list => list.some(x => x.metadata.name === createdName));
+    // Poll until the new binding reaches Bound phase
+    void pollUntil(list => list.some(x => x.metadata.name === createdName && x.status?.phase === "Bound"));
   } catch (e) {
     createError.value = e instanceof ApiError ? e.message : String(e);
   } finally { busy.value = false; }
